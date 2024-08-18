@@ -1,4 +1,4 @@
-package main
+package maps
 
 import (
 	"fmt"
@@ -7,12 +7,31 @@ import (
 	"github.com/0kate/artifactsmmo-scripts/internal/artifactsapi"
 	"github.com/0kate/artifactsmmo-scripts/internal/monsters"
 	"github.com/0kate/artifactsmmo-scripts/internal/shared"
+	"github.com/spf13/cobra"
 )
 
-func main() {
-	apiToken := os.Getenv("API_TOKEN")
+type ListOptions struct {
+}
+
+func NewListCmd() *cobra.Command {
+	o := &ListOptions{}
+
+	list := &cobra.Command{
+		Use:   "list",
+		Short: "List items",
+		Long:  "List items",
+		Run: func(cmd *cobra.Command, args []string) {
+			o.Run()
+		},
+	}
+
+	return list
+}
+
+func (o *ListOptions) Run() {
+	apiToken := os.Getenv("ARTIFACTS_API_TOKEN")
 	if apiToken == "" {
-		panic("API_TOKEN is required")
+		panic("ARTIFACTS_API_TOKEN is required")
 	}
 
 	config := artifactsapi.NewDefaultConfig(apiToken)

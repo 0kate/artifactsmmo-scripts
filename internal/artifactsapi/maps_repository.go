@@ -12,7 +12,7 @@ type MapsRepository struct {
 	client *Client
 }
 
-func NewMapsRepository(config *Config) *MapsRepository {
+func NewMapsRepository(config *Config) maps.MapsRepository {
 	return &MapsRepository{
 		client: NewClient(config),
 	}

@@ -1,6 +1,7 @@
 package characters
 
 import (
+	"github.com/0kate/artifactsmmo-scripts/internal/items"
 	"github.com/0kate/artifactsmmo-scripts/internal/shared"
 )
 
@@ -75,7 +76,30 @@ type Character struct {
 
 	cooldown Cooldown
 
-	inventory []InventorySlot
+	weaponSlot              items.Code
+	shieldSlot              items.Code
+	helmetSlot              items.Code
+	bodyArmorSlot           items.Code
+	legArmorSlot            items.Code
+	bootsSlot               items.Code
+	ring1Slot               items.Code
+	ring2Slot               items.Code
+	amuletSlot              items.Code
+	artifact1Slot           items.Code
+	artifact2Slot           items.Code
+	artifact3Slot           items.Code
+	consumable1Slot         items.Code
+	consumable1SlotQuantity int
+	consumable2Slot         items.Code
+	consumable2SlotQuantity int
+
+	task         string
+	taskType     TaskType
+	taskProgress TaskProgress
+	taskTotal    TaskTotal
+
+	inventoryMaxItems int
+	inventory         []InventorySlot
 }
 
 func NewCharacter(name string) *Character {

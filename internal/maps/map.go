@@ -6,12 +6,12 @@ import (
 
 type Map struct {
 	name     string
-	skin     string
+	skin     Skin
 	position *shared.Position
 	content  *shared.Content
 }
 
-func NewMap(name string, skin string, position *shared.Position, content *shared.Content) *Map {
+func NewMap(name string, skin Skin, position *shared.Position, content *shared.Content) *Map {
 	return &Map{
 		name:     name,
 		skin:     skin,
@@ -24,7 +24,7 @@ func (m *Map) Name() string {
 	return m.name
 }
 
-func (m *Map) Skin() string {
+func (m *Map) Skin() Skin {
 	return m.skin
 }
 

@@ -10,7 +10,7 @@ type MonstersRepository struct {
 	client *Client
 }
 
-func NewMonstersRepository(config *Config) *MonstersRepository {
+func NewMonstersRepository(config *Config) monsters.MonstersRepository {
 	return &MonstersRepository{
 		client: NewClient(config),
 	}

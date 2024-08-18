@@ -1,5 +1,5 @@
 #!/bin/sh
 
-export API_TOKEN="your_api_token"
+export ARTIFACTS_API_TOKEN="your_api_token"
 
 export CHARACTER_NAME="your_character_name"

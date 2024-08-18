@@ -12,9 +12,9 @@ import (
 )
 
 func main() {
-	apiToken := os.Getenv("API_TOKEN")
+	apiToken := os.Getenv("ARTIFACTS_API_TOKEN")
 	if apiToken == "" {
-		panic("API_TOKEN is required")
+		panic("ARTIFACTS_API_TOKEN is required")
 	}
 
 	characterName := os.Getenv("CHARACTER_NAME")
@@ -23,7 +23,7 @@ func main() {
 	}
 
 	config := artifactsapi.NewDefaultConfig(apiToken)
-	charactersRepository := artifactsapi.NewCharacterRepository(config)
+	charactersActionExecutor := artifactsapi.NewCharactersActionExecutor(config)
 	mapsRepository := artifactsapi.NewMapsRepository(config)
 
 	content := shared.NewContent(shared.ContentTypeMonster, monsters.YellowSlime.String())
@@ -36,7 +36,7 @@ func main() {
 	targetMap := pages.Data()[0]
 	position := targetMap.Position()
 
-	result, err := charactersRepository.Move(myCharacter, position)
+	result, err := charactersActionExecutor.Move(myCharacter, position)
 	if err != nil {
 		panic(err)
 	}
@@ -44,7 +44,7 @@ func main() {
 	time.Sleep(result.Cooldown().RemainingSecondsInDuration() * time.Second)
 
 	for {
-		result, err := charactersRepository.Fight(myCharacter)
+		result, err := charactersActionExecutor.Fight(myCharacter)
 		if err != nil {
 			panic(err)
 		}

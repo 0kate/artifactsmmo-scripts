@@ -25,6 +25,14 @@ func (r *MoveResponse) ToActionResult(statusCode StatusCode) (*characters.MoveRe
 			r.Data.Destination.ToActionResult(),
 			nil,
 		), nil
+	case http.StatusNotFound:
+		return nil, fmt.Errorf("Map not found.")
+	case 486:
+		return nil, fmt.Errorf("An action is already in progress by your character.")
+	case 498:
+		return nil, fmt.Errorf("Character not found.")
+	case 499:
+		return nil, fmt.Errorf("Character in cooldown.")
 	default:
 		return nil, fmt.Errorf("Unexpected error with status code %d\n", statusCode)
 	}

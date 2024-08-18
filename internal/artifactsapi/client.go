@@ -101,13 +101,15 @@ func (c *Client) doRequest(
 		}
 		defer res.Body.Close()
 
-		resBody, err := io.ReadAll(res.Body)
-		if err != nil {
-			return 0, err
-		}
+		if response != nil {
+			resBody, err := io.ReadAll(res.Body)
+			if err != nil {
+				return 0, err
+			}
 
-		if err := json.Unmarshal(resBody, response); err != nil {
-			return 0, err
+			if err := json.Unmarshal(resBody, response); err != nil {
+				return 0, err
+			}
 		}
 
 		statusCode = res.StatusCode
