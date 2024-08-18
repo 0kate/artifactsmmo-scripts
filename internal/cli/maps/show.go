@@ -1,8 +1,8 @@
 package maps
 
 import (
+	"context"
 	"fmt"
-	"os"
 
 	"github.com/0kate/artifactsmmo-scripts/internal/artifactsapi"
 	"github.com/0kate/artifactsmmo-scripts/internal/shared"
@@ -14,15 +14,29 @@ type ShowOptions struct {
 	Y int
 }
 
-func NewShowCmd() *cobra.Command {
+func NewShowCmd(ctx context.Context) *cobra.Command {
 	o := &ShowOptions{}
 
 	list := &cobra.Command{
 		Use:   "show",
 		Short: "Show map",
 		Long:  "Show map",
-		Run: func(cmd *cobra.Command, args []string) {
-			o.Run()
+		RunE: func(cmd *cobra.Command, args []string) error {
+			apiToken := ctx.Value("apiToken").(string)
+			config := artifactsapi.NewDefaultConfig(apiToken)
+			mapsRepository := artifactsapi.NewMapsRepository(config)
+
+			position := shared.NewPosition(o.X, o.Y)
+
+			map_, err := mapsRepository.Find(position)
+			if err != nil {
+				panic(err)
+			}
+
+			fmt.Printf("Map: %#v\n", map_)
+			fmt.Printf("Map.Content: %#v\n", map_.Content())
+
+			return nil
 		},
 	}
 
@@ -30,24 +44,4 @@ func NewShowCmd() *cobra.Command {
 	list.Flags().IntVarP(&o.Y, "y", "y", 0, "Y coordinate")
 
 	return list
-}
-
-func (o *ShowOptions) Run() {
-	apiToken := os.Getenv("ARTIFACTS_API_TOKEN")
-	if apiToken == "" {
-		panic("ARTIFACTS_API_TOKEN is required")
-	}
-
-	config := artifactsapi.NewDefaultConfig(apiToken)
-	mapsRepository := artifactsapi.NewMapsRepository(config)
-
-	position := shared.NewPosition(o.X, o.Y)
-
-	map_, err := mapsRepository.Find(position)
-	if err != nil {
-		panic(err)
-	}
-
-	fmt.Printf("Map: %#v\n", map_)
-	fmt.Printf("Map.Content: %#v\n", map_.Content())
 }

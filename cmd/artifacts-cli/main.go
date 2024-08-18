@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	cmd := cli.NewRootCmd()
+	cmd := cli.NewArtifactsCLICmd()
 
 	if err := cmd.Run(); err != nil {
 		fmt.Println(err)
